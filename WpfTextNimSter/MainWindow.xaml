@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfTextNimSter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTextNimSter"
+        mc:Ignorable="d"
+        Title="TextNimSter" Height="450" Width="800"
+        SizeToContent="WidthAndHeight">
+    <Grid>
+        <TextBox x:Name="textBoxRaw" HorizontalAlignment="Left" Margin="10,25,10,0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" TextChanged ="textBoxRaw_TextChanged" MouseDoubleClick="textBoxRaw_MouseDoubleClick" VerticalAlignment="Top" Width="380" Height="400"/>
+        <TextBox x:Name="textBoxFormatted" HorizontalAlignment="Left" Margin="410,25,10,10" TextWrapping="Wrap" AcceptsReturn ="True" AcceptsTab="True" MouseDoubleClick="textBoxFormatted_MouseDoubleClick" IsReadOnly="True" VerticalAlignment="Top" Width="380" Height="400" Background="{x:Null}"/>
+        <Label x:Name="labelRawText" Content="Raw text" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LabelFormatttedText" Content="Formatted text" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="410,-1,0,0"/>
+
+    </Grid>
+</Window>
