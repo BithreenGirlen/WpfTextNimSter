@@ -161,10 +161,18 @@ namespace WpfTextNimSter
             textBoxFormatted.Text = formatted;
         }
 
-        private void textBoxRaw_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void textBoxRaw_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            string clipBoardText = System.Windows.Clipboard.GetText();
-            textBoxRaw.Text = clipBoardText;
+            if (System.Windows.Clipboard.ContainsText())
+            {
+                string clipBoardText = System.Windows.Clipboard.GetText();
+                textBoxRaw.Text = clipBoardText;
+            }
+            else if (System.Windows.Clipboard.ContainsImage())
+            {
+                string clipBoardText = await WinRtOcr.RecogniseTextInImage();
+                textBoxRaw.Text = clipBoardText;
+            }
         }
 
         private void textBoxFormatted_MouseDoubleClick(object sender, MouseButtonEventArgs e)
