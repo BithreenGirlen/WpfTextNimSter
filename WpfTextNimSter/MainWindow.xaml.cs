@@ -1,15 +1,6 @@
-﻿using System.DirectoryServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfTextNimSter
 {
@@ -21,6 +12,18 @@ namespace WpfTextNimSter
         public MainWindow()
         {
             InitializeComponent();
+
+#if !WINDOWS10_0_17763_0_OR_GREATER
+            comboBoxLanguages.Visibility = Visibility.Hidden;
+#else
+            comboBoxLanguages.Items.Add("User profile");
+            var languages = WinRtOcr.GetAvailableLanguageList();
+            foreach (var language in languages)
+            {
+                comboBoxLanguages.Items.Add(language.Item2);
+            }
+            comboBoxLanguages.SelectedIndex = 0;
+#endif
         }
 
         private string RemoveLines(string src)
@@ -117,7 +120,8 @@ namespace WpfTextNimSter
         private RemovalAction GuessLikelyAction(string src)
         {
             // prefer foreach to Regex when the pattern is single char
-            Func<string, char, int> CountCharOccurence = (src, key)
+            Func<string, char, int> CountCharOccurence
+                = (src, key)
                 =>
             {
                 int count = 0;
@@ -170,6 +174,11 @@ namespace WpfTextNimSter
             }
             else if (System.Windows.Clipboard.ContainsImage())
             {
+#if WINDOWS10_0_17763_0_OR_GREATER
+                int index = comboBoxLanguages.SelectedIndex;
+                // if the item is not selected or default, passed index would be negative value;
+                WinRtOcr.SetLanguageByIndex(index - 1);
+#endif
                 string clipBoardText = await WinRtOcr.RecogniseTextInImage();
                 textBoxRaw.Text = clipBoardText;
             }
